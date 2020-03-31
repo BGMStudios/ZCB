@@ -9,6 +9,9 @@ public class Building : MonoBehaviour
     public BuildingState state;
     public bool isBeingBuilt;
 
+    public bool canBePlacedOnWater;
+    public bool coastOnly;
+
     [Header("Common Properties")]
     public Color normalColor;
     public Color buildingColor, invalidColor;
@@ -16,10 +19,13 @@ public class Building : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     public BoxCollider2D boxCollider;
 
+    public BuildingFunction buildingFunction;
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         boxCollider = GetComponent<BoxCollider2D>();
+        buildingFunction = GetComponent<BuildingFunction>();
 
         boxCollider.size = size;
     }

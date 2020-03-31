@@ -62,6 +62,7 @@ public class BuildingManager : MonoBehaviour
             currentBuilding.state = BuildingState.Normal;
             currentBuilding.gameObject.layer = LayerMask.NameToLayer("Building");
             currentBuilding.UpdateGraphics();
+            currentBuilding.buildingFunction.OnBuilt();
         }
     }
 
@@ -106,15 +107,23 @@ public class BuildingManager : MonoBehaviour
 
     bool CheckValidity()
     {
-        if (Physics2D.BoxCast(currentBuilding.transform.position, currentBuilding.boxCollider.size * .99f, 0, Vector2.zero, 1, LayerMask.GetMask("Building")))
+        Vector2 size = currentBuilding.boxCollider.size - Vector2.one * .05f;
+
+        if (Physics2D.BoxCast(currentBuilding.transform.position, size, 0, Vector2.zero, 1, LayerMask.GetMask("Building")))
         {
             RaiseError(BuildingError.SpaceOccupied);
             return false;
         }
 
-        if (Physics2D.BoxCast(currentBuilding.transform.position, currentBuilding.boxCollider.size * .99f, 0, Vector2.zero, 1, LayerMask.GetMask("Water")))
+        if (!currentBuilding.canBePlacedOnWater && Physics2D.BoxCast(currentBuilding.transform.position, size, 0, Vector2.zero, 1, LayerMask.GetMask("Water")))
         {
             RaiseError(BuildingError.CantPlaceOnWater);
+            return false;
+        }
+
+        if (currentBuilding.coastOnly && !Physics2D.BoxCast(currentBuilding.transform.position, size, 0, Vector2.zero, 1, LayerMask.GetMask("Coast")))
+        {
+            RaiseError(BuildingError.NeedsWater);
             return false;
         }
 

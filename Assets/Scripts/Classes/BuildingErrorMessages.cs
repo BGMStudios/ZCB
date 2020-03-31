@@ -3,5 +3,6 @@
     SpaceOccupied,
     CantPlaceOnWater,
     NeedsRoad,
-    NoMoney
+    NoMoney,
+    NeedsWater
 }
