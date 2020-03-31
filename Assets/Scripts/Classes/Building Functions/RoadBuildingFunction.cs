@@ -18,6 +18,9 @@ public class RoadBuildingFunction : BuildingFunction
     {
         MapManager.Instance.roadGraph.graph[transform.position] = node;
 
+        if (MapManager.Instance.firstNode == null) MapManager.Instance.firstNode = node;
+        MapManager.Instance.lastNode = node;
+
         for (int i = 0; i < 4; i++)
         {
             Vector2 raycastDir;
@@ -46,7 +49,6 @@ public class RoadBuildingFunction : BuildingFunction
 
             if (hit.collider != null)
             {
-                Debug.LogFormat("Hit road {0}", (Direction)i);
                 MapManager.Instance.roadGraph.Connect(node, hit.collider.GetComponent<RoadNode>());
             }
         }
