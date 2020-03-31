@@ -18,9 +18,6 @@ public class RoadBuildingFunction : BuildingFunction
     {
         MapManager.Instance.roadGraph.graph[transform.position] = node;
 
-        if (MapManager.Instance.firstNode == null) MapManager.Instance.firstNode = node;
-        MapManager.Instance.lastNode = node;
-
         for (int i = 0; i < 4; i++)
         {
             Vector2 raycastDir;
