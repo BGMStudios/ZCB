@@ -8,6 +8,6 @@ public class SelectionBox : MonoBehaviour
     void Update()
     {
         Vector2 mousePos = GameManager.Instance.mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        transform.position = new Vector3(Mathf.Round(mousePos.x - .5f) + .5f, Mathf.Round(mousePos.y - .5f) + .5f, -1);
+        transform.position = Utils.SnapToGrid2D(mousePos, -1);
     }
 }

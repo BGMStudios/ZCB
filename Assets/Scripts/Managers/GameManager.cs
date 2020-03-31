@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     public Camera mainCamera;
+    public SelectionBox selectionBox;
 
     private void Awake()
     {
@@ -14,6 +15,13 @@ public class GameManager : MonoBehaviour
         if (Instance != this) Destroy(gameObject);
 
         mainCamera = Camera.main;
+
+        FindGameObjects();
+    }
+
+    private void FindGameObjects()
+    {
+        selectionBox = GameObject.FindGameObjectWithTag("Selection Box").GetComponent<SelectionBox>();
     }
 
     // Start is called before the first frame update

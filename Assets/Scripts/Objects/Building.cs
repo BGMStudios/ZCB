@@ -6,5 +6,37 @@ public class Building : MonoBehaviour
 {
     public Vector2Int size;
 
-    
+    public BuildingState state;
+    public bool isBeingBuilt;
+
+    [Header("Common Properties")]
+    public Color normalColor;
+    public Color buildingColor, invalidColor;
+
+    private SpriteRenderer spriteRenderer;
+    public BoxCollider2D boxCollider;
+
+    private void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        boxCollider = GetComponent<BoxCollider2D>();
+
+        boxCollider.size = size;
+    }
+
+    public void UpdateGraphics()
+    {
+        switch (state)
+        {
+            case BuildingState.InConstruction:
+                spriteRenderer.color = buildingColor;
+                break;
+            case BuildingState.Normal:
+                spriteRenderer.color = normalColor;
+                break;
+            case BuildingState.Invalid:
+                spriteRenderer.color = invalidColor;
+                break;
+        }
+    }
 }
