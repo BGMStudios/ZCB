@@ -11,6 +11,7 @@ public class Building : MonoBehaviour
 
     public bool canBePlacedOnWater;
     public bool coastOnly;
+    public bool needsRoad;
 
     [Header("Common Properties")]
     public Color normalColor;

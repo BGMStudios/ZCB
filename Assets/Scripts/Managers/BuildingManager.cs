@@ -62,7 +62,9 @@ public class BuildingManager : MonoBehaviour
             currentBuilding.state = BuildingState.Normal;
             currentBuilding.gameObject.layer = LayerMask.NameToLayer("Building");
             currentBuilding.UpdateGraphics();
-            currentBuilding.buildingFunction.OnBuilt();
+
+            if (currentBuilding.buildingFunction != null)
+                currentBuilding.buildingFunction.OnBuilt();
         }
     }
 
@@ -109,7 +111,7 @@ public class BuildingManager : MonoBehaviour
     {
         Vector2 size = currentBuilding.boxCollider.size - Vector2.one * .05f;
 
-        if (Physics2D.BoxCast(currentBuilding.transform.position, size, 0, Vector2.zero, 1, LayerMask.GetMask("Building")))
+        if (Physics2D.BoxCast(currentBuilding.transform.position, size, 0, Vector2.zero, 1, LayerMask.GetMask("Building", "Road")))
         {
             RaiseError(BuildingError.SpaceOccupied);
             return false;
@@ -121,9 +123,15 @@ public class BuildingManager : MonoBehaviour
             return false;
         }
 
-        if (currentBuilding.coastOnly && !Physics2D.BoxCast(currentBuilding.transform.position, size, 0, Vector2.zero, 1, LayerMask.GetMask("Coast")))
+        if (currentBuilding.coastOnly && !Physics2D.BoxCast(currentBuilding.transform.position, size + Vector2.one * .1f, 0, Vector2.zero, 1, LayerMask.GetMask("Water")))
         {
             RaiseError(BuildingError.NeedsWater);
+            return false;
+        }
+
+        if (currentBuilding.needsRoad && !Physics2D.BoxCast(currentBuilding.transform.position, size + Vector2.one * .1f, 0, Vector2.zero, 1, LayerMask.GetMask("Road")))
+        {
+            RaiseError(BuildingError.NeedsRoad);
             return false;
         }
 
